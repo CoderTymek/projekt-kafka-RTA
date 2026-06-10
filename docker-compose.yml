@@ -25,3 +25,5 @@ services:
       POSTGRES_USER: student
       POSTGRES_PASSWORD: student
       POSTGRES_DB: projekt
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
