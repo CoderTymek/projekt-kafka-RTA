@@ -10,35 +10,24 @@ producer = KafkaProducer(
 
 TOPIC = "crypto-stream"
 
-SYMBOLS = [
-    "BTCUSDT",
-    "ETHUSDT",
-    "BNBUSDT",
-    "SOLUSDT"
-]
+URL = 'https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","BNBUSDT","SOLUSDT"]'
 
 while True:
     try:
-        for symbol in SYMBOLS:
+        response = requests.get(URL)
+        data_list = response.json()
 
-            response = requests.get(
-                f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}"
-            )
-
-            data = response.json()
-
+        for item in data_list:
             message = {
                 "timestamp": int(time.time()),
-                "symbol": data["symbol"],
-                "price": float(data["price"])
+                "symbol": item["symbol"],
+                "price": float(item["price"])
             }
 
             producer.send(TOPIC, message)
-
             print("Wysłano:", message)
 
         producer.flush()
-
         time.sleep(2)
 
     except Exception as e:
