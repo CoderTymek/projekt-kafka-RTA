@@ -27,3 +27,14 @@ services:
       POSTGRES_DB: projekt
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  spark-jupyter:
+    image: jupyter/pyspark-notebook:spark-3.5.0
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/home/jovyan/work
+    environment:
+      JUPYTER_TOKEN: root
+    depends_on:
+      - kafka
