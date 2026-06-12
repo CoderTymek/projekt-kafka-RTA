@@ -31,7 +31,7 @@ services:
   spark-jupyter:
     image: jupyter/pyspark-notebook:spark-3.5.0
     ports:
-      - "8888:8888"
+      - "9095:8888"
     volumes:
       - ./:/home/jovyan/work
     environment:
